@@ -46,8 +46,18 @@ function showFileStat ( f , choice ) {
 }
 
 function printFileInput (fname , addPadding) {
-	fs.readFile(fname , function (err, data)  {
+	var stream = fs.createReadStream(fname);
+	stream.on('data', function (data){
 		console.log(" Data ");
-		console.log("\u001b[34m"+(data+"").replace(/(.*)/g , "     $1"));
+		console.log("\u001b[34m"+(data+"").replace(/(.*)/g , "     $1"));		
 	});
+	stream.on('error',function () {
+		console.log("\u001b[m Err ");
+				delete this;
+	});
+	stream.on('end' , function () {
+		console.log("\u001b[0m Enddddddddddddddddddddddddddd of FIle");
+		delete this;
+	});
+	
 }
